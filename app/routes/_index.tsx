@@ -59,6 +59,9 @@ export async function loader() {
   ) {
     throw new Error("env vars UPSTASH_URL and UPSTASH_TOKEN must be set.");
   }
+  // } else {
+  //   console.log(process.env.UPSTASH_URL + " : " + process.env.UPSTASH_TOKEN);
+  // }
   const rurl: string = process.env.UPSTASH_URL;
   const rtoken: string = process.env.UPSTASH_TOKEN;
 
