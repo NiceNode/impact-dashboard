@@ -54,17 +54,23 @@ const activeByRegionArr = [
 
 export async function loader() {
   if (
-    process.env.UPSTASH_URL === undefined ||
-    process.env.UPSTASH_TOKEN === undefined
+    process.env.UPSTASH_REDIS_REST_URL === undefined ||
+    process.env.UPSTASH_REDIS_REST_TOKEN === undefined
   ) {
-    throw new Error("env vars UPSTASH_URL and UPSTASH_TOKEN must be set.");
+    throw new Error(
+      "env vars UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN must be set.",
+    );
   }
   // } else {
-  //   console.log(process.env.UPSTASH_URL + " : " + process.env.UPSTASH_TOKEN);
+  //   console.log(process.env.UPSTASH_REDIS_REST_URL + " : " + process.env.UPSTASH_REDIS_REST_TOKEN);
   // }
-  const rurl: string = process.env.UPSTASH_URL;
-  const rtoken: string = process.env.UPSTASH_TOKEN;
+  const rurl: string = process.env.UPSTASH_REDIS_REST_URL;
+  const rtoken: string = process.env.UPSTASH_REDIS_REST_TOKEN + '9';
 
+  // const redis = new Redis({
+  //   url: rurl,
+  //   token: rtoken,
+  // });
   const redis = new Redis({
     url: rurl,
     token: rtoken,
