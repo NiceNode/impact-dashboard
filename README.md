@@ -9,6 +9,7 @@ Run the Vite dev server:
 ```shellscript
 npm run dev
 ```
+Open `localhost:3000` in an Incognito browser window.
 
 ## Deployment
 
@@ -34,3 +35,6 @@ Make sure to deploy the output of `npm run build`
 
 - `build/server`
 - `build/client`
+
+## Troubleshooting
+The browser console error "Warning: Expected server HTML to contain a matching <head> in <html>" is likely caused by a browser extension if you did not modify any <head> tags. Open `localhost:3000` in an Incognito browser window.
