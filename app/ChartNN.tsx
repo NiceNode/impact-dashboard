@@ -8,22 +8,25 @@ import {
 } from "recharts";
 import { convertUTCTimestampToMonthDay } from "./util";
 
-const data = [
-  { time: 1702684800000, active: 1 },
-  { time: 1702771200000, active: 5 },
-  { time: 1702857600000, active: 50 },
-  { time: 1702944000000, active: 120 },
-  { time: 1703030400000, active: 123 },
-];
+// const data = [
+//   { time: 1702684800000, active: 1 },
+//   { time: 1702771200000, active: 5 },
+//   { time: 1702857600000, active: 50 },
+//   { time: 1702944000000, active: 120 },
+//   { time: 1703030400000, active: 123 },
+// ];
 
-const graphData = data.map((point) => {
-  return {
-    ...point,
-    time: convertUTCTimestampToMonthDay(point.time),
-  };
-});
 
-const ChartNN = () => {
+
+const ChartNN = (props: { data: {time: number, active: number}[] } ) => {
+  // First, sorts data from early to latest timestamp is left to right on the chart
+  // Then converts a timestamp to a concise, human readable 'Month Day' format
+  const graphData = props.data.sort((a,b) => a.time - b.time).map((point) => {
+    return {
+      ...point,
+      time: convertUTCTimestampToMonthDay(point.time),
+    };
+  });
   return (
     <ResponsiveContainer>
       <LineChart

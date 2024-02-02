@@ -1,104 +1,32 @@
 import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { Redis } from "@upstash/redis";
 import { Button, IconButton, Table } from "@itsmapleleaf/radix-themes";
 import ChartNN from "../ChartNN";
 import InfoIconPop from "../InfoIconPop";
-
-const activeByNodeTypeArr = [
-  {
-    region: "Ethereum",
-    count: 10,
-  },
-  {
-    region: "Farcaster",
-    count: 8,
-  },
-  {
-    region: "Optimism",
-    count: 5,
-  },
-  {
-    region: "Arbitrum",
-    count: 5,
-  },
-  {
-    region: "Base",
-    count: 2,
-  },
-];
-
-const activeByRegionArr = [
-  {
-    region: "USA",
-    count: 10,
-  },
-  {
-    region: "Australia",
-    count: 20,
-  },
-  {
-    region: "Thailand",
-    count: 5,
-  },
-  {
-    region: "Germany",
-    count: 100,
-  },
-  {
-    region: "Other",
-    count: 5,
-  },
-];
+import { getDashData } from "../.server/getDashData"
+import { logDeepObj } from "../.server/util";
 
 export async function loader() {
-  if (
-    process.env.UPSTASH_REDIS_REST_URL === undefined ||
-    process.env.UPSTASH_REDIS_REST_TOKEN === undefined
-  ) {
-    throw new Error(
-      "env vars UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN must be set.",
-    );
-  }
-  // } else {
-  //   console.log(process.env.UPSTASH_REDIS_REST_URL + " : " + process.env.UPSTASH_REDIS_REST_TOKEN);
-  // }
-  const rurl: string = process.env.UPSTASH_REDIS_REST_URL;
-  const rtoken: string = process.env.UPSTASH_REDIS_REST_TOKEN + '9';
-
-  // const redis = new Redis({
-  //   url: rurl,
-  //   token: rtoken,
-  // });
-  const redis = new Redis({
-    url: rurl,
-    token: rtoken,
-  });
-
-  // provides data to the component
-  let numActiveNodes: number | null = await redis.get("numActiveNodes");
-  console.log("numActiveNodes:", numActiveNodes);
-  if (typeof numActiveNodes === null) {
-    numActiveNodes = -1;
-  }
-  let activeNodesDailyHistory: string | null = await redis.get(
-    "activeNodesDailyHistory",
-  );
-  console.log("activeNodesDailyHistory:", activeNodesDailyHistory);
-
-  if (activeNodesDailyHistory === null) {
-    activeNodesDailyHistory = "{}";
-  }
   try {
+    const dashData = await getDashData()
+    console.log("dashData: ", logDeepObj(dashData))
+    const chartData: {time: number, active: number}[] = dashData.monthlyActiveNodesIndexByDays.map((dayData) => {
+        const timestamp = new Date(dayData.day).getTime()
+          return { 
+            time: timestamp,
+            active: dayData?.data?.count ?? 0
+          }
+      })
+    return json({
+      dashData,
+      chartData
+    });
     // activeNodesDailyHistory = JSON.parse(activeNodesDailyHistory);
   } catch (err) {
     console.error(err);
   }
-  return json({
-    numActiveNodes,
-    activeNodesDailyHistory,
-  });
+
 }
 
 export const meta: MetaFunction = () => {
@@ -124,12 +52,12 @@ export default function Index() {
           >
             <div style={{ fontSize: 48, marginRight: 5 }}>Active Nodes</div>{" "}
             {/* <Button> */}
-            <InfoIconPop text="Running anytime in last 7 days" />
+            <InfoIconPop text="Running anytime in last 30 days" />
           </div>
-          <div style={{ fontSize: 130 }}>{loadedData.numActiveNodes}</div>
+          <div style={{ fontSize: 130 }}>{loadedData.dashData.numActiveNodes}</div>
         </div>
         <div style={{ width: 700, height: 400 }}>
-          <ChartNN />
+          <ChartNN data={loadedData.chartData}/>
         </div>
       </div>
       <div>
@@ -142,10 +70,10 @@ export default function Index() {
           </Table.Header>
 
           <Table.Body>
-            {activeByNodeTypeArr.map((rowData) => {
+            {loadedData?.dashData.activeNodesByType.map((rowData) => {
               return (
-                <Table.Row key={rowData.region}>
-                  <Table.RowHeaderCell>{rowData.region}</Table.RowHeaderCell>
+                <Table.Row key={rowData.type}>
+                  <Table.RowHeaderCell>{rowData.type}</Table.RowHeaderCell>
                   <Table.Cell>{rowData.count}</Table.Cell>
                 </Table.Row>
               );
@@ -159,16 +87,16 @@ export default function Index() {
         <Table.Root>
           <Table.Header>
             <Table.Row>
-              <Table.ColumnHeaderCell>Region</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell>Country</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell>Count</Table.ColumnHeaderCell>
             </Table.Row>
           </Table.Header>
 
           <Table.Body>
-            {activeByRegionArr.map((rowData) => {
+            {loadedData?.dashData.activeNodesByCountry.map((rowData) => {
               return (
-                <Table.Row key={rowData.region}>
-                  <Table.RowHeaderCell>{rowData.region}</Table.RowHeaderCell>
+                <Table.Row key={rowData.country}>
+                  <Table.RowHeaderCell>{rowData.country}</Table.RowHeaderCell>
                   <Table.Cell>{rowData.count}</Table.Cell>
                 </Table.Row>
               );
