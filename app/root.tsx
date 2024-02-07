@@ -7,7 +7,7 @@ import {
   useRouteError,
 } from "@remix-run/react";
 
-import { Button, Theme } from "@radix-ui/themes";
+import { Theme } from "@radix-ui/themes";
 import { useState } from "react";
 import NavBar from "./NavBar";
 
@@ -27,7 +27,7 @@ export default function App() {
       <body>
         <Theme appearance={theme}>
           <NavBar
-            theme
+            theme={theme}
             onToggleTheme={() => {
               console.log(theme);
               setTheme(theme === "light" ? "dark" : "light");

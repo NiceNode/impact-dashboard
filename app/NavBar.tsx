@@ -1,7 +1,7 @@
-import { Button, IconButton } from "@radix-ui/themes";
+import { IconButton } from "@radix-ui/themes";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 
-export default function NavBar(props: any) {
+export default function NavBar(props: {onToggleTheme: () => void, theme: string}) {
   return (
     <div style={{ height: 32, display: "flex", padding: 5 }}>
       <div>NiceNode Impact Dashboard</div>

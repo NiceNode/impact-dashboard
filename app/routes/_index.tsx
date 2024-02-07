@@ -1,7 +1,7 @@
 import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { Button, IconButton, Table } from "@radix-ui/themes";
+import { Table } from "@radix-ui/themes";
 import ChartNN from "../ChartNN";
 import InfoIconPop from "../InfoIconPop";
 import { getDashData } from "../.server/getDashData"
