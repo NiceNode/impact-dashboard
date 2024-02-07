@@ -21,7 +21,7 @@ export const getDashData = async () => {
       data: dayJson
     }
   })
-  const mostRecentDay = monthlyActiveNodesIndexByDays[2]
+  const mostRecentDay = monthlyActiveNodesIndexByDays[0]
   const numActiveNodes = mostRecentDay?.data?.count
   let activeNodesByCountry: { country: string, count: number }[] = []
   if (mostRecentDay?.data?.country) {
