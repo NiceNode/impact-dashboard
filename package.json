@@ -19,6 +19,7 @@
     "@remix-run/react": "^2.6.0",
     "@remix-run/serve": "^2.6.0",
     "@upstash/redis": "^1.28.3",
+    "dotenv": "^16.4.1",
     "isbot": "^4.1.0",
     "prettier": "^3.2.4",
     "react": "^18.2.0",
