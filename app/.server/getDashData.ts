@@ -25,6 +25,7 @@ export const getDashData = async () => {
   const numActiveNodes = mostRecentDay?.data?.count
   let activeNodesByCountry: { country: string, count: number }[] = []
   if (mostRecentDay?.data?.country) {
+
     activeNodesByCountry = Object.keys(mostRecentDay?.data?.country).map((countryCode) => {
       return {
         count: mostRecentDay.data.country[countryCode],
@@ -41,6 +42,9 @@ export const getDashData = async () => {
       }
     })
   }
+  // Puts highest counts at the beginning of the arrays
+  activeNodesByCountry = activeNodesByCountry.sort((a, b) => { return a.count < b.count ? 1 : a.count > b.count ? -1 : 0 })
+  activeNodesByType = activeNodesByType.sort((a, b) => { return a.count < b.count ? 1 : a.count > b.count ? -1 : 0 })
   return {
     numActiveNodes,
     activeNodesByCountry,

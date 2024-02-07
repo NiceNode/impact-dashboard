@@ -94,9 +94,13 @@ export default function Index() {
 
           <Table.Body>
             {loadedData?.dashData.activeNodesByCountry.map((rowData) => {
+              const countryCode = rowData.country
+              const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
+              const countryFullName = regionNames.of(countryCode) ?? countryCode;
+              console.log("countryFullName: ", countryFullName)
               return (
-                <Table.Row key={rowData.country}>
-                  <Table.RowHeaderCell>{rowData.country}</Table.RowHeaderCell>
+                <Table.Row key={countryFullName}>
+                  <Table.RowHeaderCell>{countryFullName}</Table.RowHeaderCell>
                   <Table.Cell>{rowData.count}</Table.Cell>
                 </Table.Row>
               );
