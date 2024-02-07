@@ -99,7 +99,7 @@ class RedisClient {
 
 let impactDashRedisUrl = process.env.DEV_IMPACT_DASH_REDIS_REST_URL
 let impactDashRedisToken = process.env.DEV_IMPACT_DASH_REDIS_REST_TOKEN
-if (process.env.NN_ENV === 'production') {
+if (true || process.env.NN_ENV === 'production') {
   impactDashRedisUrl = process.env.IMPACT_DASH_REDIS_REST_URL
   impactDashRedisToken = process.env.IMPACT_DASH_REDIS_REST_TOKEN
 }

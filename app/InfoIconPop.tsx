@@ -3,7 +3,7 @@ import {
   IconButton,
   Popover,
   Text,
-} from "@itsmapleleaf/radix-themes";
+} from "@radix-ui/themes";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 
 const InfoIconPop = (props: { text: string }) => {

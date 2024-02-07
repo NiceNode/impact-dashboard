@@ -7,11 +7,11 @@ import {
   useRouteError,
 } from "@remix-run/react";
 
-import { Button, Theme } from "@itsmapleleaf/radix-themes";
+import { Button, Theme } from "@radix-ui/themes";
 import { useState } from "react";
 import NavBar from "./NavBar";
 
-import "@itsmapleleaf/radix-themes/styles.css";
+import "@radix-ui/themes/styles.css";
 
 export default function App() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");

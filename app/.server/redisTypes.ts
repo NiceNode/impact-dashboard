@@ -10,11 +10,8 @@ export const monthlyActiveNodesByDay = 'monthlyActiveNodesIndexByDay::'
 
 // Sets prefixes
 export const dailyActiveNodesSetByDay = 'dailyActiveNodesByDay::'
-
-// Sets
-export const dailyActiveNodesSet = 'dailyActiveNodes'
-export const weeklyActiveNodesSet = 'weeklyActiveNodes'
-export const monthlyActiveNodesSet = 'monthlyActiveNodes'
+export const weeklyActiveNodesSetByDay = 'weeklyActiveNodesByDay::'
+export const monthlyActiveNodesSetByDay = 'monthlyActiveNodesByDay::'
 
 export const makeAEventsByDayKey = (yyyyMMddString: string): string =>
   `${eventsByDayPrefixWithoutDate}${yyyyMMddString}`

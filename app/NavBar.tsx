@@ -1,4 +1,4 @@
-import { Button, IconButton } from "@itsmapleleaf/radix-themes";
+import { Button, IconButton } from "@radix-ui/themes";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 
 export default function NavBar(props: any) {
