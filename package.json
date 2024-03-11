@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@radix-ui/react-icons": "^1.3.0",
-    "@radix-ui/themes": "^3.0.0-rc.2",
+    "@radix-ui/themes": "^3.0.0-rc.15",
     "@remix-run/node": "^2.6.0",
     "@remix-run/react": "^2.6.0",
     "@remix-run/serve": "^2.6.0",

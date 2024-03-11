@@ -1,7 +1,7 @@
 import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { Table } from "@radix-ui/themes";
+import { TableBody, TableCell, TableColumnHeaderCell, TableHeader, TableRoot, TableRow, TableRowHeaderCell } from "@radix-ui/themes";
 import ChartNN from "../ChartNN";
 import InfoIconPop from "../InfoIconPop";
 import { getDashData } from "../.server/getDashData"
@@ -61,52 +61,52 @@ export default function Index() {
         </div>
       </div>
       <div>
-        <Table.Root>
-          <Table.Header>
-            <Table.Row>
-              <Table.ColumnHeaderCell>Node Type</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Count</Table.ColumnHeaderCell>
-            </Table.Row>
-          </Table.Header>
+        <TableRoot>
+          <TableHeader>
+            <TableRow>
+              <TableColumnHeaderCell>Node Type</TableColumnHeaderCell>
+              <TableColumnHeaderCell>Count</TableColumnHeaderCell>
+            </TableRow>
+          </TableHeader>
 
-          <Table.Body>
+          <TableBody>
             {loadedData?.dashData.activeNodesByType.map((rowData) => {
               return (
-                <Table.Row key={rowData.type}>
-                  <Table.RowHeaderCell>{rowData.type}</Table.RowHeaderCell>
-                  <Table.Cell>{rowData.count}</Table.Cell>
-                </Table.Row>
+                <TableRow key={rowData.type}>
+                  <TableRowHeaderCell>{rowData.type}</TableRowHeaderCell>
+                  <TableCell>{rowData.count}</TableCell>
+                </TableRow>
               );
             })}
-          </Table.Body>
-        </Table.Root>
+          </TableBody>
+        </TableRoot>
       </div>
       <br />
       <br />
       <div>
-        <Table.Root>
-          <Table.Header>
-            <Table.Row>
-              <Table.ColumnHeaderCell>Country</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Count</Table.ColumnHeaderCell>
-            </Table.Row>
-          </Table.Header>
+        <TableRoot>
+          <TableHeader>
+            <TableRow>
+              <TableColumnHeaderCell>Country</TableColumnHeaderCell>
+              <TableColumnHeaderCell>Count</TableColumnHeaderCell>
+            </TableRow>
+          </TableHeader>
 
-          <Table.Body>
+          <TableBody>
             {loadedData?.dashData.activeNodesByCountry.map((rowData) => {
               const countryCode = rowData.country
               const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
               const countryFullName = regionNames.of(countryCode) ?? countryCode;
               console.log("countryFullName: ", countryFullName)
               return (
-                <Table.Row key={countryFullName}>
-                  <Table.RowHeaderCell>{countryFullName}</Table.RowHeaderCell>
-                  <Table.Cell>{rowData.count}</Table.Cell>
-                </Table.Row>
+                <TableRow key={countryFullName}>
+                  <TableRowHeaderCell>{countryFullName}</TableRowHeaderCell>
+                  <TableCell>{rowData.count}</TableCell>
+                </TableRow>
               );
             })}
-          </Table.Body>
-        </Table.Root>
+          </TableBody>
+        </TableRoot>
       </div>
     </div>
   );
