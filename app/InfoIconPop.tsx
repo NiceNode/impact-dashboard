@@ -1,22 +1,25 @@
 import {
   AccessibleIcon,
   IconButton,
-  Popover,
+  PopoverContent,
+  PopoverRoot,
+  PopoverTrigger,
   Text,
 } from "@radix-ui/themes";
+import { Popover } from "@radix-ui/react-popover";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 
 const InfoIconPop = (props: { text: string }) => {
   return (
-    <Popover.Root>
-      <Popover.Trigger>
+    <PopoverRoot>
+      <PopoverTrigger>
         <IconButton variant="ghost" size="1" color="gray">
           <AccessibleIcon label="Prop description">
             <InfoCircledIcon />
           </AccessibleIcon>
         </IconButton>
-      </Popover.Trigger>
-      <Popover.Content
+      </PopoverTrigger>
+      <PopoverContent
         side="top"
         align="center"
         style={{ maxWidth: 350 }}
@@ -29,8 +32,8 @@ const InfoIconPop = (props: { text: string }) => {
         <Text as="div" size="2">
           {props.text}
         </Text>
-      </Popover.Content>
-    </Popover.Root>
+      </PopoverContent>
+    </PopoverRoot>
   );
 };
 export default InfoIconPop;
