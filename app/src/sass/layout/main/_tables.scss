@@ -1,29 +1,28 @@
 #tables {
-
   h3 {
     margin-bottom: 12px;
     font-size: 32px;
     line-height: 38px;
-    @include media-breakpoint-up(sm){
+    @include media-breakpoint-up(sm) {
       font-size: 48px;
       line-height: 58px;
     }
-    @include media-breakpoint-up(md){
+    @include media-breakpoint-up(md) {
       font-size: 60px;
       line-height: 72px;
     }
   }
 
   margin-top: 72px;
-  font-family: 'Satoshi-Medium';
+  font-family: "Satoshi-Medium";
   font-size: 20px;
   line-height: 24px;
-  @include media-breakpoint-up(sm){
+  @include media-breakpoint-up(sm) {
     margin-top: 96px;
     font-size: 24px;
     line-height: 30px;
   }
-  @include media-breakpoint-up(md){
+  @include media-breakpoint-up(md) {
     margin-top: 104px;
   }
 
@@ -49,14 +48,15 @@
   .table-cell {
     width: 50%;
     padding-right: 20px;
-    @include media-breakpoint-up(sm){
+    @include media-breakpoint-up(sm) {
       width: 33%;
     }
     &.client {
+      text-transform: capitalize;
       padding-left: 36px;
       background-size: 24px 24px;
       background-repeat: no-repeat;
-      @include media-breakpoint-up(sm){
+      @include media-breakpoint-up(sm) {
         padding-left: 46px;
         background-size: 30px 30px;
       }
@@ -65,39 +65,39 @@
       border-radius: 12px;
     }
     &.ethereum {
-      background-image: url('../images/ethereum.png');
+      background-image: url("../images/ethereum.png");
     }
     &.farcaster {
-      background-image: url('../images/farcaster.png');
+      background-image: url("../images/farcaster.png");
     }
     &.optimism {
-      background-image: url('../images/optimism.png');
+      background-image: url("../images/optimism.png");
     }
     &.arbitrum {
-      background-image: url('../images/arbitrum.png');
+      background-image: url("../images/arbitrum.png");
     }
     &.livepeer {
-      background-image: url('../images/livepeer.png');
+      background-image: url("../images/livepeer.png");
     }
     &.geth {
-      background-image: url('../images/geth.png');
+      background-image: url("../images/geth.png");
     }
     &.nethermind {
-      background-image: url('../images/nethermind.png');
+      background-image: url("../images/nethermind.png");
     }
     &.besu {
-      background-image: url('../images/besu.png');
+      background-image: url("../images/besu.png");
     }
     &.reth {
-      background-image: url('../images/reth.png');
+      background-image: url("../images/reth.png");
     }
     &.livepeer {
-      background-image: url('../images/livepeer.png');
+      background-image: url("../images/livepeer.png");
     }
 
     &.part {
       display: none;
-      @include media-breakpoint-up(sm){
+      @include media-breakpoint-up(sm) {
         display: flex;
       }
     }

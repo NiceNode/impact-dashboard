@@ -23,6 +23,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
+      <script src="/app/src/js/index.js"></script>
       <body className={theme}>
         <div id="topOfPage"></div>
         <header id="test">
@@ -100,8 +101,8 @@ export default function App() {
             ></li>
           </ul>
         </header>
-        <Outlet />
         <main>
+          <Outlet />
           <section id="learn">
             <div className="learn-container">
               <div className="content">
@@ -174,7 +175,6 @@ export default function App() {
 
         <ScrollRestoration />
         <Scripts />
-        <script src="/app/src/js/index.js"></script>
       </body>
     </html>
   );

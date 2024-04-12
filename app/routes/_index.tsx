@@ -46,63 +46,53 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   const loadedData = useLoaderData<typeof loader>();
-
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif" }}>
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <div style={{ fontSize: 48, marginRight: 5 }}>Active Nodes</div>{" "}
-            {/* <Button> */}
-            <InfoIconPop text="Running anytime in last 30 days" />
-          </div>
-          <div style={{ fontSize: 130 }}>
-            {loadedData.dashData.numActiveNodes}
-          </div>
+    <>
+      <section id="top">
+        <div className="headerTextContainer">
+          <h1 className="headline-primary">
+            There are currently
+            <span className="headline-node">
+              {" " + loadedData.dashData.numActiveNodes} nodes
+            </span>{" "}
+            running across
+            <span className="headline-countries">
+              {" " + loadedData?.dashData.activeNodesByCountry.length} countries
+            </span>
+            .
+          </h1>
         </div>
-        <div style={{ width: 700, height: 400 }}>
-          <ChartNN data={loadedData.chartData} />
-        </div>
-      </div>
-      <div>
-        <TableRoot>
-          <TableHeader>
-            <TableRow>
-              <TableColumnHeaderCell>Node Type</TableColumnHeaderCell>
-              <TableColumnHeaderCell>Count</TableColumnHeaderCell>
-            </TableRow>
-          </TableHeader>
-
-          <TableBody>
+      </section>
+      <section id="chart">
+        <ChartNN data={loadedData.chartData} />
+      </section>
+      <section id="tables">
+        <div className="table-section" id="nodeType">
+          <h3>Node type</h3>
+          <div className="table">
+            <div className="table-row">
+              <div className="table-cell">Name</div>
+              <div className="table-cell">Nodes</div>
+            </div>
             {loadedData?.dashData.activeNodesByType.map((rowData) => {
               return (
-                <TableRow key={rowData.type}>
-                  <TableRowHeaderCell>{rowData.type}</TableRowHeaderCell>
-                  <TableCell>{rowData.count}</TableCell>
-                </TableRow>
+                <div className="table-row" key={rowData.type}>
+                  <div className={`table-cell client ${rowData.type}`}>
+                    {rowData.type}
+                  </div>
+                  <div className="table-cell">{rowData.count}</div>
+                </div>
               );
             })}
-          </TableBody>
-        </TableRoot>
-      </div>
-      <br />
-      <br />
-      <div>
-        <TableRoot>
-          <TableHeader>
-            <TableRow>
-              <TableColumnHeaderCell>Country</TableColumnHeaderCell>
-              <TableColumnHeaderCell>Count</TableColumnHeaderCell>
-            </TableRow>
-          </TableHeader>
-
-          <TableBody>
+          </div>
+        </div>
+        <div className="table-section" id="country">
+          <h3>Country</h3>
+          <div className="table">
+            <div className="table-row">
+              <div className="table-cell">Name</div>
+              <div className="table-cell">Nodes</div>
+            </div>
             {loadedData?.dashData.activeNodesByCountry.map((rowData) => {
               const countryCode = rowData.country;
               const regionNames = new Intl.DisplayNames(["en"], {
@@ -110,17 +100,16 @@ export default function Index() {
               });
               const countryFullName =
                 regionNames.of(countryCode) ?? countryCode;
-              console.log("countryFullName: ", countryFullName);
               return (
-                <TableRow key={countryFullName}>
-                  <TableRowHeaderCell>{countryFullName}</TableRowHeaderCell>
-                  <TableCell>{rowData.count}</TableCell>
-                </TableRow>
+                <div className="table-row" key={countryFullName}>
+                  <div className={`table-cell`}>{countryFullName}</div>
+                  <div className="table-cell">{rowData.count}</div>
+                </div>
               );
             })}
-          </TableBody>
-        </TableRoot>
-      </div>
-    </div>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

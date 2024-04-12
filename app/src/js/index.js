@@ -12,6 +12,8 @@
 //   console.error(err);
 // }
 
+console.log("test");
+
 const body = document.querySelector("body");
 const savedTheme = localStorage.getItem("theme");
 
@@ -50,25 +52,6 @@ document.addEventListener("DOMContentLoaded", function () {
     localStorage.setItem("theme", currentTheme);
   });
 });
-
-var acc = document.getElementsByClassName("accordion");
-var i;
-
-for (i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function () {
-    this.classList.toggle("active");
-    var panel = this.nextElementSibling;
-    if (panel.style.display === "block") {
-      panel.style.display = "none";
-      this.querySelector("span.dot").innerHTML = "●";
-      this.querySelector("span.arrow").innerHTML = "↓";
-    } else {
-      panel.style.display = "block";
-      this.querySelector("span.dot").innerHTML = "○";
-      this.querySelector("span.arrow").innerHTML = "↑";
-    }
-  });
-}
 
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   anchor.addEventListener("click", function (e) {
