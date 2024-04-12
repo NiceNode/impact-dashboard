@@ -1,32 +1,40 @@
 import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { TableBody, TableCell, TableColumnHeaderCell, TableHeader, TableRoot, TableRow, TableRowHeaderCell } from "@radix-ui/themes";
+import {
+  TableBody,
+  TableCell,
+  TableColumnHeaderCell,
+  TableHeader,
+  TableRoot,
+  TableRow,
+  TableRowHeaderCell,
+} from "@radix-ui/themes";
 import ChartNN from "../ChartNN";
 import InfoIconPop from "../InfoIconPop";
-import { getDashData } from "../.server/getDashData"
+import { getDashData } from "../.server/getDashData";
 import { logDeepObj } from "../.server/util";
 
 export async function loader() {
   try {
-    const dashData = await getDashData()
-    console.log("dashData: ", logDeepObj(dashData))
-    const chartData: {time: number, active: number}[] = dashData.monthlyActiveNodesIndexByDays.map((dayData) => {
-        const timestamp = new Date(dayData.day).getTime()
-          return { 
-            time: timestamp,
-            active: dayData?.data?.count ?? 0
-          }
-      })
+    const dashData = await getDashData();
+    // console.log("dashData: ", logDeepObj(dashData))
+    const chartData: { time: number; active: number }[] =
+      dashData.monthlyActiveNodesIndexByDays.map((dayData) => {
+        const timestamp = new Date(dayData.day).getTime();
+        return {
+          time: timestamp,
+          active: dayData?.data?.count ?? 0,
+        };
+      });
     return json({
       dashData,
-      chartData
+      chartData,
     });
     // activeNodesDailyHistory = JSON.parse(activeNodesDailyHistory);
   } catch (err) {
     console.error(err);
   }
-
 }
 
 export const meta: MetaFunction = () => {
@@ -54,10 +62,12 @@ export default function Index() {
             {/* <Button> */}
             <InfoIconPop text="Running anytime in last 30 days" />
           </div>
-          <div style={{ fontSize: 130 }}>{loadedData.dashData.numActiveNodes}</div>
+          <div style={{ fontSize: 130 }}>
+            {loadedData.dashData.numActiveNodes}
+          </div>
         </div>
         <div style={{ width: 700, height: 400 }}>
-          <ChartNN data={loadedData.chartData}/>
+          <ChartNN data={loadedData.chartData} />
         </div>
       </div>
       <div>
@@ -94,10 +104,13 @@ export default function Index() {
 
           <TableBody>
             {loadedData?.dashData.activeNodesByCountry.map((rowData) => {
-              const countryCode = rowData.country
-              const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
-              const countryFullName = regionNames.of(countryCode) ?? countryCode;
-              console.log("countryFullName: ", countryFullName)
+              const countryCode = rowData.country;
+              const regionNames = new Intl.DisplayNames(["en"], {
+                type: "region",
+              });
+              const countryFullName =
+                regionNames.of(countryCode) ?? countryCode;
+              console.log("countryFullName: ", countryFullName);
               return (
                 <TableRow key={countryFullName}>
                   <TableRowHeaderCell>{countryFullName}</TableRowHeaderCell>
