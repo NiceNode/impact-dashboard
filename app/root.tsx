@@ -9,7 +9,6 @@ import {
 
 import { useState } from "react";
 
-import "@radix-ui/themes/styles.css";
 import "./src/sass/index.scss";
 
 export default function App() {

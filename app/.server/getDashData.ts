@@ -29,6 +29,8 @@ export const getDashData = async () => {
   });
   const mostRecentDay = monthlyActiveNodesIndexByDays[0];
   const numActiveNodes = mostRecentDay?.data?.count;
+
+  console.log("mostRecenDay", mostRecentDay);
   let activeNodesByCountry: { country: string; count: number }[] = [];
   if (mostRecentDay?.data?.country) {
     activeNodesByCountry = Object.keys(mostRecentDay?.data?.country).map(

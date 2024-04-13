@@ -1,6 +1,10 @@
+// app/routes/client/$name.jsx
+import React from "react";
+import { useParams } from "@remix-run/react";
+
 import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData, Link } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import ChartNN from "../ChartNN";
 import InfoIconPop from "../InfoIconPop";
 import { getDashData } from "../.server/getDashData";
@@ -37,21 +41,13 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   const loadedData = useLoaderData<typeof loader>();
+  const params = useParams();
+
   return (
     <>
       <section id="top">
         <div className="headerTextContainer">
-          <h1 className="headline-primary">
-            There are currently
-            <span className="headline-node">
-              {" " + (loadedData.dashData.numActiveNodes || 0)} nodes
-            </span>{" "}
-            running across
-            <span className="headline-countries">
-              {" " + loadedData?.dashData.activeNodesByCountry.length} countries
-            </span>
-            .
-          </h1>
+          <h1 className="headline-primary">{params.name}</h1>
         </div>
       </section>
       <section id="chart">
@@ -69,9 +65,7 @@ export default function Index() {
               return (
                 <div className="table-row" key={rowData.type}>
                   <div className={`table-cell client ${rowData.type}`}>
-                    <Link className="link" to={`/client/${rowData.type}`}>
-                      {rowData.type}
-                    </Link>
+                    {rowData.type}
                   </div>
                   <div className="table-cell">{rowData.count}</div>
                 </div>
