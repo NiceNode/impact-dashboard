@@ -15,6 +15,7 @@ import { convertUTCTimestampToMonthDay } from "./util";
 type ChartStyleProp = {
   linearGradient: string[];
   lineColor: string;
+  color: string;
   toolTipColor: string;
   yAxisFormat: string;
 };
@@ -38,6 +39,7 @@ const Chart = (props: {
     let chartProps = {
       linearGradient: [],
       lineColor: "",
+      color: "",
       toolTipColor: "",
       yAxisFormat: "",
     } as ChartStyleProp;
@@ -52,7 +54,12 @@ const Chart = (props: {
             theme === "light"
               ? "rgba(115, 81, 235, 1)"
               : "rgba(130, 103, 239, 1)",
-          toolTipColor: "rgba(76, 128, 246, 1)",
+          toolTipColor:
+            theme === "light"
+              ? "rgba(255, 255, 255, 0.80)"
+              : "rgba(0, 0, 0, 0.80)",
+          color:
+            theme === "light" ? "rgba(0, 0, 0, 1)" : "rgba(255, 255, 255, 1)",
           yAxisFormat: "{value}",
         };
         break;
@@ -70,7 +77,7 @@ const Chart = (props: {
     return chartProps;
   };
 
-  const { linearGradient, lineColor, toolTipColor, yAxisFormat } =
+  const { linearGradient, lineColor, toolTipColor, yAxisFormat, color } =
     getChartProps();
 
   const gridLineColor =
@@ -161,15 +168,28 @@ const Chart = (props: {
     ],
     tooltip: {
       backgroundColor: toolTipColor,
-      borderRadius: 4,
+      borderStyle: "solid",
+      borderWidth: 2,
+      borderRadius: 16,
+      borderColor: color,
+      useHTML: true,
       style: {
-        color: "rgba(255, 255, 255, 1)",
+        color: color,
       },
-      // formatter(this: Highcharts.TooltipFormatterContextObject): string {
-      //   // eslint-disable-next-line react/no-this-in-sfc
-      //   const yValue = this.y || 0;
-      //   return getToolTipFormat(yValue, tabId);
-      // },
+      formatter(this: Highcharts.TooltipFormatterContextObject): string {
+        return `
+        <div style="font-size: 14px; padding: 8px;">
+            <div style="margin-bottom: 12px; font-weight: bold">Nodes</div>
+            <div style="position: relative;">
+              <div style="height: 36px; width: 3px;position: absolute;top: 0;left: 0;background-color: rgba(130, 103, 239, 1);"></div>
+              <div style="padding-left: 16px;">
+                <div style="margin-bottom: 4px;">${Highcharts.dateFormat("%b %e, %Y", this.x)}</div>
+                <div><span style="font-weight: bold">${this.y}</span> active</div>
+              </div>
+            </div>
+          </div>
+        `;
+      },
     },
     credits: {
       enabled: false,
