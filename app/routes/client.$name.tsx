@@ -39,19 +39,31 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export default function Index() {
+export default function Client() {
   const loadedData = useLoaderData<typeof loader>();
   const params = useParams();
 
   return (
     <>
       <section id="top">
-        <div className="headerTextContainer">
-          <h1 className="headline-primary">{params.name}</h1>
+        <div className="headerTextContainer client">
+          <h1 className="headline-primary client">{params.name}</h1>
+          <div className="headline-secondary client">
+            Currently
+            <span className={`headline-node client ${params.name}`}>
+              {" " + (loadedData.dashData.numActiveNodes || 0)} {params.name}{" "}
+              nodes
+            </span>{" "}
+            across
+            <span className="headline-countries">
+              {" " + loadedData?.dashData.activeNodesByCountry.length} countries
+            </span>
+            .
+          </div>
         </div>
       </section>
       <section id="chart">
-        <Chart data={loadedData.chartData} />
+        <Chart data={loadedData.chartData} type="ethereum" />
       </section>
       <section id="tables">
         <div className="table-section" id="nodeType">

@@ -1,60 +1,54 @@
 #chart {
   height: 335px;
-  // padding: 0px 16px;
-  // @include media-breakpoint-up(sm){
-  //   padding: 0px 24px;
-  // }
-  // @include media-breakpoint-up(md){
-  //   padding: 0px 48px;
-  // }
+}
 
-  // h3 {
-  //   margin-bottom: 12px;
-  //   font-size: 32px;
-  //   line-height: 38px;
-  //   @include media-breakpoint-up(sm){
-  //     font-size: 48px;
-  //     line-height: 58px;
-  //   }
-  //   @include media-breakpoint-up(md){
-  //     font-size: 60px;
-  //     line-height: 72px;
-  //   }
-  // }
+.custom-tooltip {
+  // Target the span added by Highcharts
+  span {
+    // Directly target the divs instead of relying on structural pseudo-classes
+    > div {
+      // The outermost div wrapping your custom content
+      font-size: 14px;
+      padding: 6px;
 
-  // ul {
-  //   list-style: disc;
-  //   margin-left: 15px;
-  //   margin-top: 12px;
-  //   line-height: 20px;
-  // }
+      > div:first-child {
+        // "Node Type" title
+        margin-bottom: 12px;
+        font-weight: bold;
+      }
 
-  // h4 {
-  //   margin-top: 40px;
-  //   font-size: 24px;
-  //   line-height: 30px;
-  // }
+      > div:nth-child(2) {
+        // The div wrapping the indicator bar and text content
+        position: relative;
 
-  // .lastUpdated {
-  //   color: var(--iconColor);
-  //   font-size: 16px;
-  //   margin-bottom: 32px;
-  // }
+        > div:first-child {
+          // Indicator bar
+          height: 36px;
+          width: 3px;
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
 
-  // p {
-  //   margin-top: 12px;
-  //   font-size: 16px;
-  //   line-height: 20px;
+        > div:nth-child(2) {
+          // The text content wrapper
+          padding-left: 16px; // Adjust the padding to match the design
 
-  //   &.declaration {
-  //     margin-top: 50px;
-  //   }
+          > div:first-child {
+            // Date
+            margin-bottom: 4px; // Spacing between date and active count
+            color: var(--iconColor);
+          }
 
-  //   span {
-  //     background-size: cover;
-  //     display: inline-block;
-  //     background-repeat: no-repeat;
-  //     margin-bottom: -4px;
-  //   }
-  // }
+          > div:nth-child(2) {
+            // Active count
+            span {
+              // The actual active count
+              font-weight: bold;
+            }
+          }
+        }
+      }
+    }
+  }
 }

@@ -23,7 +23,7 @@ export default function Main() {
         <div id="topOfPage"></div>
         <header id="test">
           <div className="logo">
-            <a href="#topOfPage"></a>
+            <a href="/#topOfPage"></a>
           </div>
           <nav>
             <div className="links">

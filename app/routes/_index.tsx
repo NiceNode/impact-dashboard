@@ -69,9 +69,13 @@ export default function Index() {
               return (
                 <div className="table-row" key={rowData.type}>
                   <div className={`table-cell client ${rowData.type}`}>
-                    <Link className="link" to={`/client/${rowData.type}`}>
-                      {rowData.type}
-                    </Link>
+                    {rowData.type === "ethereum" ? (
+                      <Link className="link" to={`/client/${rowData.type}`}>
+                        {rowData.type}
+                      </Link>
+                    ) : (
+                      rowData.type
+                    )}
                   </div>
                   <div className="table-cell">{rowData.count}</div>
                 </div>

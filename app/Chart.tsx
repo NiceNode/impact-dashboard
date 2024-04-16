@@ -2,7 +2,6 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { ClientOnly } from "remix-utils/client-only";
 import { useTheme } from "./contexts/ThemeContext";
-import { convertUTCTimestampToMonthDay } from "./util";
 
 // const data = [
 //   { time: 1702684800000, active: 1 },
@@ -39,8 +38,9 @@ const Chart = (props: {
     let chartProps = {
       linearGradient: [],
       lineColor: "",
-      color: "",
-      toolTipColor: "",
+      color: theme === "light" ? "rgba(0, 0, 0, 1)" : "rgba(255, 255, 255, 1)",
+      toolTipColor:
+        theme === "light" ? "rgba(255, 255, 255, 0.80)" : "rgba(0, 0, 0, 0.80)",
       yAxisFormat: "",
     } as ChartStyleProp;
     switch (props.type) {
@@ -54,24 +54,39 @@ const Chart = (props: {
             theme === "light"
               ? "rgba(115, 81, 235, 1)"
               : "rgba(130, 103, 239, 1)",
-          toolTipColor:
+          toolTipColor: chartProps.toolTipColor,
+          color: chartProps.color,
+          yAxisFormat: "{value}",
+        };
+        break;
+      case "ethereum":
+        chartProps = {
+          linearGradient:
             theme === "light"
-              ? "rgba(255, 255, 255, 0.80)"
-              : "rgba(0, 0, 0, 0.80)",
-          color:
-            theme === "light" ? "rgba(0, 0, 0, 1)" : "rgba(255, 255, 255, 1)",
+              ? ["rgba(109, 163, 249, 0.32)", "rgba(109, 163, 249, 0.08)"]
+              : ["rgba(109, 163, 249, 0.64)", "rgba(109, 163, 249, 0.16)"],
+          lineColor:
+            theme === "light"
+              ? "rgba(58, 95, 233, 1)"
+              : "rgba(66, 106, 255, 1)",
+          toolTipColor: chartProps.toolTipColor,
+          color: chartProps.color,
           yAxisFormat: "{value}",
         };
         break;
       default:
         chartProps = {
-          linearGradient: [
-            "rgba(19, 122, 248, 0.20)",
-            "rgba(19, 122, 248, 0.04)",
-          ],
-          lineColor: "rgba(76, 128, 246, 1)",
-          toolTipColor: "rgba(76, 128, 246, 1)",
-          yAxisFormat: "{value}%",
+          linearGradient:
+            theme === "light"
+              ? ["rgba(115, 81, 235, 0.32)", "rgba(115, 81, 235, 0.08)"]
+              : ["rgba(130, 103, 239, 0.64)", "rgba(130, 103, 239, 0.16)"],
+          lineColor:
+            theme === "light"
+              ? "rgba(115, 81, 235, 1)"
+              : "rgba(130, 103, 239, 1)",
+          toolTipColor: chartProps.toolTipColor,
+          color: chartProps.color,
+          yAxisFormat: "{value}",
         };
     }
     return chartProps;
@@ -173,18 +188,19 @@ const Chart = (props: {
       borderRadius: 16,
       borderColor: color,
       useHTML: true,
+      className: `custom-tooltip ${props.type}`,
       style: {
         color: color,
       },
       formatter(this: Highcharts.TooltipFormatterContextObject): string {
         return `
-        <div style="font-size: 14px; padding: 8px;">
-            <div style="margin-bottom: 12px; font-weight: bold">Nodes</div>
-            <div style="position: relative;">
-              <div style="height: 36px; width: 3px;position: absolute;top: 0;left: 0;background-color: rgba(130, 103, 239, 1);"></div>
-              <div style="padding-left: 16px;">
-                <div style="margin-bottom: 4px;">${Highcharts.dateFormat("%b %e, %Y", this.x)}</div>
-                <div><span style="font-weight: bold">${this.y}</span> active</div>
+          <div>
+            <div>Node Type</div>
+            <div>
+              <div style="background-color: ${lineColor}"}></div>
+              <div>
+                <div>${Highcharts.dateFormat("%b %e, %Y", this.x)}</div>
+                <div><span>${this.y}</span> active</div>
               </div>
             </div>
           </div>
@@ -196,53 +212,6 @@ const Chart = (props: {
     },
     legend: {
       enabled: false,
-    },
-  };
-
-  // Options for Highcharts
-  const options = {
-    chart: {
-      type: "line",
-    },
-    title: {
-      text: "Node Activity Over Time",
-    },
-    xAxis: {
-      type: "datetime",
-      title: {
-        text: "Date",
-      },
-    },
-    yAxis: {
-      title: {
-        text: "Active Nodes",
-      },
-    },
-    series: [
-      {
-        name: "Active Nodes",
-        data: graphData,
-      },
-    ],
-    tooltip: {
-      pointFormat: "Active nodes: <b>{point.y}</b><br/>",
-      xDateFormat: "%B %d", // Format the date for the tooltip
-    },
-    responsive: {
-      rules: [
-        {
-          condition: {
-            maxWidth: 500,
-          },
-          chartOptions: {
-            legend: {
-              layout: "horizontal",
-              align: "center",
-              verticalAlign: "bottom",
-            },
-          },
-        },
-      ],
     },
   };
 
