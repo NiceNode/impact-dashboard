@@ -1,7 +1,7 @@
 import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData, Link } from "@remix-run/react";
-import ChartNN from "../ChartNN";
+import Chart from "../Chart";
 import InfoIconPop from "../InfoIconPop";
 import { getDashData } from "../.server/getDashData";
 import { logDeepObj } from "../.server/util";
@@ -55,7 +55,7 @@ export default function Index() {
         </div>
       </section>
       <section id="chart">
-        <ChartNN data={loadedData.chartData} />
+        <Chart data={loadedData.chartData} type="overview" />
       </section>
       <section id="tables">
         <div className="table-section" id="nodeType">
