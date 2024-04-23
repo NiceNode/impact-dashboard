@@ -103,7 +103,7 @@ header {
 
       .filterButton {
         position: relative;
-        border: 2px solid $white;
+        border: 2px solid var(--textColor);
         border-radius: 25px;
         background-color: none;
         cursor: pointer;
@@ -125,28 +125,43 @@ header {
           font-size: 20px;
         }
 
-        &.buttonDropdown,
-        a {
+        &:hover {
+          .filterMenu {
+            display: flex;
+          }
+        }
+
+        &:hover::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 100%;
+          height: 20px;
+          z-index: 99;
+        }
+
+        &.buttonDropdown {
           box-sizing: border-box;
-          padding: 8px 18px;
+          padding: 8px 6px 8px 16px;
           width: fit-content;
           height: 100%;
           display: inline-block;
           text-decoration: none;
           overflow: visible;
-          color: $white;
+          color: var(--textColor);
           transition: all 0.4s;
-          // border-radius: 25px;
+          border-radius: 25px;
           &.active,
           &:hover {
-            background-color: $white;
+            background-color: var(--textColor);
             .down {
               transition: all 0.5s;
             }
             &.black {
-              color: $black;
+              color: var(--bgColor);
               .down {
-                background-color: $black;
+                background-color: var(--bgColor);
               }
             }
           }
@@ -164,19 +179,50 @@ header {
         width: max-content;
         position: absolute;
         margin-top: 20px;
-        left: 0;
+        left: 50%;
+        transform: translateX(-50%);
+
+        &.active {
+          background-color: var(--textColor);
+          transition: none;
+          &.black {
+            color: var(--bgColor);
+            .down {
+              background-color: var(--bgColor);
+            }
+          }
+        }
 
         &.visible {
           display: flex;
         }
 
         .filterText {
-          a {
-            color: $black;
-            &:hover {
-              color: $orange;
-            }
+          flex-direction: row;
+          display: flex;
+          border-radius: 12px;
+          box-sizing: border-box;
+          padding: 8px 18px;
+          width: 164px;
+          height: 100%;
+          justify-content: space-between;
+          text-decoration: none;
+          color: $black;
+
+          &:hover {
+            background-color: $black;
+            color: $white;
           }
+          .checkmark {
+            width: 24px;
+            height: 24px;
+            background-image: url("../images/check.png");
+            background-size: cover;
+          }
+        }
+
+        .filterName {
+          line-height: 24px;
         }
       }
 
@@ -193,21 +239,10 @@ header {
         mask-image: url("../images/down.svg");
         -webkit-mask-size: cover;
         mask-size: cover;
-        background-color: white;
+        background-color: var(--textColor);
         margin-left: 6px;
         @include media-breakpoint-up(sm) {
           margin-left: 8px;
-        }
-      }
-
-      li {
-        cursor: pointer;
-        a {
-          color: var(--textColor);
-          text-decoration: none;
-          display: inline-block;
-          width: 100%;
-          height: 100%;
         }
       }
     }

@@ -7,6 +7,7 @@ import {
 } from "@remix-run/react";
 
 import { useTheme } from "./contexts/ThemeContext";
+import FilterButton from "./FilterButton";
 
 export default function Main() {
   const { theme, setTheme } = useTheme();
@@ -26,45 +27,7 @@ export default function Main() {
             <a href="/#topOfPage"></a>
           </div>
           <nav>
-            <div className="links">
-              <div className="filterButton black buttonDropdown">
-                <div className="filterContainer">
-                  Overview<div className="down"></div>
-                </div>
-                <div className="filterMenu">
-                  <div className="filterText">
-                    <a id="appleSiliconDownloadLink" download>
-                      Overview
-                    </a>
-                  </div>
-                  <div className="filterText">
-                    <a id="appleIntelDownloadLink" download>
-                      Ethereum
-                    </a>
-                  </div>
-                  <div className="filterText">
-                    <a id="appleSiliconDownloadLink" download>
-                      Farcaster
-                    </a>
-                  </div>
-                  <div className="filterText">
-                    <a id="appleIntelDownloadLink" download>
-                      Optimism
-                    </a>
-                  </div>
-                  <div className="filterText">
-                    <a id="appleSiliconDownloadLink" download>
-                      Arbitrum
-                    </a>
-                  </div>
-                  <div className="filterText">
-                    <a id="appleIntelDownloadLink" download>
-                      Livepeer
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <FilterButton />
           </nav>
           <ul className="icons">
             <li className="twitter">
