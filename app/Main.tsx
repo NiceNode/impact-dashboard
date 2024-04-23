@@ -19,7 +19,6 @@ export default function Main() {
         <Meta />
         <Links />
       </head>
-      <script src="/app/src/js/index.js"></script>
       <body className={theme}>
         <div id="topOfPage"></div>
         <header id="test">
@@ -133,6 +132,7 @@ export default function Main() {
 
         <ScrollRestoration />
         <Scripts />
+        <script src="/app/src/js/index.js"></script>
       </body>
     </html>
   );

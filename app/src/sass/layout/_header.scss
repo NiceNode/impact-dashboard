@@ -125,7 +125,7 @@ header {
           font-size: 20px;
         }
 
-        &:hover {
+        &:active {
           .filterMenu {
             display: flex;
           }
@@ -169,7 +169,7 @@ header {
       }
 
       .filterMenu {
-        display: none;
+        // display: none;
         flex-direction: column;
         align-items: flex-start;
         padding: 8px;
@@ -207,17 +207,24 @@ header {
           height: 100%;
           justify-content: space-between;
           text-decoration: none;
+          text-transform: capitalize;
           color: $black;
 
           &:hover {
             background-color: $black;
             color: $white;
+            .checkmark {
+              background-color: $white;
+            }
           }
           .checkmark {
             width: 24px;
             height: 24px;
-            background-image: url("../images/check.png");
-            background-size: cover;
+            -webkit-mask-image: url("../images/check.svg");
+            mask-image: url("../images/check.svg");
+            -webkit-mask-size: cover;
+            mask-size: cover;
+            background-color: $purple2;
           }
         }
 
@@ -230,6 +237,7 @@ header {
         display: flex;
         flex-direction: row;
         align-items: center;
+        text-transform: capitalize;
       }
 
       .down {
