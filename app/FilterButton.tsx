@@ -52,7 +52,7 @@ export default function FilterButton() {
 
   return (
     <div className="links">
-      <div className="filterButton black buttonDropdown">
+      <div className="filterButton black buttonDropdown" ref={buttonRef}>
         <div
           className="filterContainer"
           onClick={() => setMenuVisible(!isMenuVisible)}
@@ -72,7 +72,7 @@ export default function FilterButton() {
                   setMenuVisible(false); // Close the menu on selection
                 }}
               >
-                {option.name}
+                <span className="filterName">{option.name}</span>
                 {selected === option.name && (
                   <span className="checkmark"></span>
                 )}
