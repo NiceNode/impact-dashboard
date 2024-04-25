@@ -5,12 +5,33 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import { useState, useEffect } from "react";
 
 import { useTheme } from "./contexts/ThemeContext";
 import FilterButton from "./FilterButton";
+import { ThemeContextType } from "./contexts/ThemeContext";
 
 export default function Main() {
-  const { theme, setTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme() as ThemeContextType;
+  const [isMinimized, setIsMinimized] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const main = document.querySelector("main");
+      if (!main) return; // Ensure `main` exists
+
+      const headerTop = main.getBoundingClientRect().top;
+      if (headerTop === 62) {
+        setIsMinimized(false);
+      } else if (headerTop <= 95 && headerTop !== 62) {
+        setIsMinimized(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <html lang="en">
       <head>
@@ -21,7 +42,7 @@ export default function Main() {
       </head>
       <body className={theme}>
         <div id="topOfPage"></div>
-        <header id="test">
+        <header className={isMinimized ? "minimized" : ""}>
           <div className="logo">
             <a href="/#topOfPage"></a>
           </div>
@@ -50,12 +71,7 @@ export default function Main() {
                 rel="noopener noreferrer"
               ></a>
             </li>
-            <li
-              className="switch"
-              onClick={() => {
-                setTheme(theme === "light" ? "dark" : "light");
-              }}
-            ></li>
+            <li className="switch" onClick={toggleTheme}></li>
           </ul>
         </header>
         <main>
