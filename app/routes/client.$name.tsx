@@ -1,14 +1,9 @@
 // app/routes/client/$name.jsx
-import React from "react";
-import { useParams } from "@remix-run/react";
-
+import { useParams, useLoaderData } from "@remix-run/react";
 import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
 import Chart from "../Chart";
-import InfoIconPop from "../InfoIconPop";
 import { getDashData } from "../.server/getDashData";
-import { logDeepObj } from "../.server/util";
 
 export async function loader() {
   try {

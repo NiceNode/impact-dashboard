@@ -32,6 +32,14 @@ export default function Main() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const scrollToTop = (event) => {
+    event.preventDefault(); // Prevent the default anchor link behavior
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <html lang="en">
       <head>
@@ -44,7 +52,7 @@ export default function Main() {
         <div id="topOfPage"></div>
         <header className={isMinimized ? "minimized" : ""}>
           <div className="logo">
-            <a href="/#topOfPage"></a>
+            <a href="/#topOfPage" onClick={scrollToTop}></a>
           </div>
           <nav>
             <FilterButton />
