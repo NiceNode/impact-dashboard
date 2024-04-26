@@ -2,14 +2,12 @@ import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData, Link } from "@remix-run/react";
 import Chart from "../Chart";
-import InfoIconPop from "../InfoIconPop";
 import { getDashData } from "../.server/getDashData";
-import { logDeepObj } from "../.server/util";
+import Headline from "../Headline";
 
 export async function loader() {
   try {
     const dashData = await getDashData();
-    // console.log("dashData: ", logDeepObj(dashData))
     const chartData: { time: number; active: number }[] =
       dashData.monthlyActiveNodesIndexByDays.map((dayData) => {
         const timestamp = new Date(dayData.day).getTime();
@@ -22,7 +20,6 @@ export async function loader() {
       dashData,
       chartData,
     });
-    // activeNodesDailyHistory = JSON.parse(activeNodesDailyHistory);
   } catch (err) {
     console.error(err);
   }
@@ -39,24 +36,11 @@ export default function Index() {
   const loadedData = useLoaderData<typeof loader>();
   return (
     <>
-      <section id="top">
-        <div className="headerTextContainer">
-          <h1 className="headline-primary">
-            There are currently
-            <span className="headline-node">
-              {" " + (loadedData.dashData.numActiveNodes || 0)} nodes
-            </span>{" "}
-            running across
-            <span className="headline-countries">
-              {" " + loadedData?.dashData.activeNodesByCountry.length} countries
-            </span>
-            .
-          </h1>
-        </div>
-      </section>
-      <section id="chart">
-        <Chart data={loadedData.chartData} type="overview" />
-      </section>
+      <Headline
+        nodeCount={loadedData.dashData.numActiveNodes}
+        countryCount={loadedData?.dashData.activeNodesByCountry.length}
+      />
+      <Chart data={loadedData.chartData} type="overview" />
       <section id="tables">
         <div className="table-section" id="nodeType">
           <h3>Node type</h3>

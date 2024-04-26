@@ -4,6 +4,8 @@ import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import Chart from "../Chart";
 import { getDashData } from "../.server/getDashData";
+import Headline from "../Headline";
+import { Tables, Table } from "../Tables";
 
 function findNodeByType(type: string, nodes: any): Node | undefined {
   return nodes.find((node) => node.type === type);
@@ -47,88 +49,29 @@ export default function Client() {
     loadedData?.dashData.activeNodesByType,
   );
 
-  console.log("clientData", clientData);
-
   return (
     <>
-      <section id="top">
-        <div className="headerTextContainer client">
-          <h1 className="headline-primary client">{params.name}</h1>
-          <div className="headline-secondary client">
-            Currently
-            <span className={`headline-node client ${params.name}`}>
-              {" " + (clientData?.count ?? 0)} {params.name} nodes
-            </span>{" "}
-            across
-            <span className="headline-countries">
-              {" " + loadedData?.dashData.activeNodesByCountry.length} countries
-            </span>
-            .
-          </div>
-        </div>
-      </section>
-      <section id="chart">
-        <Chart data={loadedData.chartData} type={params.name || ""} />
-      </section>
-      <section id="tables">
-        <div className="table-section" id="nodeType">
-          <h3>Execution clients</h3>
-          <div className="table">
-            <div className="table-row">
-              <div className="table-cell">Name</div>
-              <div className="table-cell">Share</div>
-            </div>
-            {clientData?.clients.execution.map((rowData) => {
-              return (
-                <div className="table-row" key={rowData.name}>
-                  <div className={`table-cell client ${rowData.name}`}>
-                    {rowData.name}
-                  </div>
-                  <div className="table-cell">{rowData.count}%</div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-        <div className="table-section" id="nodeType">
-          <h3>Consensus clients</h3>
-          <div className="table">
-            <div className="table-row">
-              <div className="table-cell">Name</div>
-              <div className="table-cell">Share</div>
-            </div>
-            {clientData.clients.consensus.map((rowData) => {
-              return (
-                <div className="table-row" key={rowData.name}>
-                  <div className={`table-cell client ${rowData.name}`}>
-                    {rowData.name}
-                  </div>
-                  <div className="table-cell">{rowData.count}%</div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-        <div className="table-section" id="nodeType">
-          <h3>Networks</h3>
-          <div className="table">
-            <div className="table-row">
-              <div className="table-cell">Name</div>
-              <div className="table-cell">Nodes</div>
-            </div>
-            {clientData?.networks.map((rowData) => {
-              return (
-                <div className="table-row" key={rowData.name}>
-                  <div className={`table-cell ${rowData.name}`}>
-                    {rowData.name}
-                  </div>
-                  <div className="table-cell">{rowData.count}%</div>
-                </div>
-              );
-            }) ?? []}
-          </div>
-        </div>
-      </section>
+      <Headline
+        nodeCount={clientData?.count}
+        countryCount={loadedData?.dashData.activeNodesByCountry.length}
+        clientType={params.name}
+      />
+      <Chart data={loadedData.chartData} type={params.name || ""} />
+      <Tables>
+        <Table
+          title="Execution clients"
+          data={clientData.clients.execution}
+          dataKey="execution"
+          countSuffix="%"
+        />
+        <Table
+          title="Consensus clients"
+          data={clientData.clients.consensus}
+          dataKey="consensus"
+          countSuffix="%"
+        />
+        <Table title="Networks" data={clientData.networks} dataKey="networks" />
+      </Tables>
     </>
   );
 }

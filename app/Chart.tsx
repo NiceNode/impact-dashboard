@@ -218,9 +218,9 @@ const Chart = (props: {
   return (
     <ClientOnly fallback={<p>Loading...</p>}>
       {() => (
-        <div>
+        <section id="chart">
           <HighchartsReact highcharts={Highcharts} options={chartOptions} />
-        </div>
+        </section>
       )}
     </ClientOnly>
   );
