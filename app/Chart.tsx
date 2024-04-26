@@ -216,6 +216,7 @@ const Chart = (props: {
   };
 
   return (
+    // TODO: Add a loading spinner
     <ClientOnly fallback={<p>Loading...</p>}>
       {() => (
         <section id="chart">

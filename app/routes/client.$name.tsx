@@ -49,6 +49,22 @@ export default function Client() {
     loadedData?.dashData.activeNodesByType,
   );
 
+  const renderClientsRow = (rowData) => {
+    return (
+      <div className="table-row" key={rowData.name}>
+        <div
+          style={{
+            backgroundImage: `url("../images/${rowData.name}.png")`,
+          }}
+          className={`table-cell client`}
+        >
+          {rowData.name}
+        </div>
+        <div className="table-cell">{rowData.count}%</div>
+      </div>
+    );
+  };
+
   return (
     <>
       <Headline
@@ -56,21 +72,35 @@ export default function Client() {
         countryCount={loadedData?.dashData.activeNodesByCountry.length}
         clientType={params.name}
       />
+      <section id="warning">
+        *Currently using mock data for this page until backend is implemented to
+        show client-specific information
+      </section>
       <Chart data={loadedData.chartData} type={params.name || ""} />
       <Tables>
         <Table
           title="Execution clients"
           data={clientData.clients.execution}
-          dataKey="execution"
-          countSuffix="%"
+          dataKey="clients"
+          renderRow={renderClientsRow}
         />
         <Table
           title="Consensus clients"
           data={clientData.clients.consensus}
-          dataKey="consensus"
-          countSuffix="%"
+          dataKey="clients"
+          renderRow={renderClientsRow}
         />
-        <Table title="Networks" data={clientData.networks} dataKey="networks" />
+        <Table
+          title="Networks"
+          data={clientData.networks}
+          dataKey="networks"
+          renderRow={(rowData) => (
+            <div className="table-row" key={rowData.name}>
+              <div className="table-cell">{rowData.name}</div>
+              <div className="table-cell">{rowData.count}</div>
+            </div>
+          )}
+        />
       </Tables>
     </>
   );

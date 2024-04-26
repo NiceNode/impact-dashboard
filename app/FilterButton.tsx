@@ -68,6 +68,9 @@ export default function FilterButton() {
                 key={option.name}
                 className={`filterText ${selected === option.name ? "selected" : ""}`}
                 onClick={(e) => {
+                  if (selected === option.name) {
+                    e.preventDefault(); // Prevent navigating to the same page
+                  }
                   setSelected(option.name);
                   setMenuVisible(false); // Close the menu on selection
                 }}

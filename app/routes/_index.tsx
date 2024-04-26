@@ -4,6 +4,7 @@ import { useLoaderData, Link } from "@remix-run/react";
 import Chart from "../Chart";
 import { getDashData } from "../.server/getDashData";
 import Headline from "../Headline";
+import { Tables, Table } from "../Tables";
 
 export async function loader() {
   try {
@@ -41,56 +42,50 @@ export default function Index() {
         countryCount={loadedData?.dashData.activeNodesByCountry.length}
       />
       <Chart data={loadedData.chartData} type="overview" />
-      <section id="tables">
-        <div className="table-section" id="nodeType">
-          <h3>Node type</h3>
-          <div className="table">
-            <div className="table-row">
-              <div className="table-cell">Name</div>
-              <div className="table-cell">Nodes</div>
+      <Tables>
+        <Table
+          title="Node type"
+          data={loadedData?.dashData.activeNodesByType}
+          dataKey="nodeType"
+          renderRow={(rowData) => (
+            <div className="table-row" key={rowData.type}>
+              <div
+                style={{
+                  backgroundImage: `url("../images/${rowData.type}.png")`,
+                }}
+                className={`table-cell client`}
+              >
+                {rowData.type === "ethereum" ? (
+                  <Link className="link" to={`/client/${rowData.type}`}>
+                    {rowData.type}
+                  </Link>
+                ) : (
+                  rowData.type
+                )}
+              </div>
+              <div className="table-cell">{rowData.count}</div>
             </div>
-            {loadedData?.dashData.activeNodesByType.map((rowData) => {
-              return (
-                <div className="table-row" key={rowData.type}>
-                  <div className={`table-cell client ${rowData.type}`}>
-                    {rowData.type === "ethereum" ? (
-                      <Link className="link" to={`/client/${rowData.type}`}>
-                        {rowData.type}
-                      </Link>
-                    ) : (
-                      rowData.type
-                    )}
-                  </div>
-                  <div className="table-cell">{rowData.count}</div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-        <div className="table-section" id="country">
-          <h3>Country</h3>
-          <div className="table">
-            <div className="table-row">
-              <div className="table-cell">Name</div>
-              <div className="table-cell">Nodes</div>
-            </div>
-            {loadedData?.dashData.activeNodesByCountry.map((rowData) => {
-              const countryCode = rowData.country;
-              const regionNames = new Intl.DisplayNames(["en"], {
-                type: "region",
-              });
-              const countryFullName =
-                regionNames.of(countryCode) ?? countryCode;
-              return (
-                <div className="table-row" key={countryFullName}>
-                  <div className={`table-cell`}>{countryFullName}</div>
-                  <div className="table-cell">{rowData.count}</div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+          )}
+        />
+        <Table
+          title="Country"
+          data={loadedData?.dashData.activeNodesByCountry}
+          dataKey="country"
+          renderRow={(rowData) => {
+            const countryCode = rowData.country;
+            const regionNames = new Intl.DisplayNames(["en"], {
+              type: "region",
+            });
+            const countryFullName = regionNames.of(countryCode) ?? countryCode;
+            return (
+              <div className="table-row" key={countryFullName}>
+                <div className={`table-cell`}>{countryFullName}</div>
+                <div className="table-cell">{rowData.count}</div>
+              </div>
+            );
+          }}
+        />
+      </Tables>
     </>
   );
 }

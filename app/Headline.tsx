@@ -1,6 +1,4 @@
-import React from "react";
-
-const Introduction = ({ nodeCount, countryCount, clientType = "" }) => {
+const Headline = ({ nodeCount, countryCount, clientType = "" }) => {
   let content;
 
   if (clientType == "") {
@@ -47,4 +45,4 @@ const Introduction = ({ nodeCount, countryCount, clientType = "" }) => {
   );
 };
 
-export default Introduction;
+export default Headline;
