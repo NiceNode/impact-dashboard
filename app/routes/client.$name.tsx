@@ -5,6 +5,10 @@ import { json } from "@remix-run/node";
 import Chart from "../Chart";
 import { getDashData } from "../.server/getDashData";
 
+function findNodeByType(type: string, nodes: any): Node | undefined {
+  return nodes.find((node) => node.type === type);
+}
+
 export async function loader() {
   try {
     const dashData = await getDashData();
@@ -38,6 +42,13 @@ export default function Client() {
   const loadedData = useLoaderData<typeof loader>();
   const params = useParams();
 
+  const clientData = findNodeByType(
+    params.name ?? "",
+    loadedData?.dashData.activeNodesByType,
+  );
+
+  console.log("clientData", clientData);
+
   return (
     <>
       <section id="top">
@@ -46,8 +57,7 @@ export default function Client() {
           <div className="headline-secondary client">
             Currently
             <span className={`headline-node client ${params.name}`}>
-              {" " + (loadedData.dashData.numActiveNodes || 0)} {params.name}{" "}
-              nodes
+              {" " + (clientData?.count ?? 0)} {params.name} nodes
             </span>{" "}
             across
             <span className="headline-countries">
@@ -58,49 +68,64 @@ export default function Client() {
         </div>
       </section>
       <section id="chart">
-        <Chart data={loadedData.chartData} type="ethereum" />
+        <Chart data={loadedData.chartData} type={params.name || ""} />
       </section>
       <section id="tables">
         <div className="table-section" id="nodeType">
-          <h3>Node type</h3>
+          <h3>Execution clients</h3>
           <div className="table">
             <div className="table-row">
               <div className="table-cell">Name</div>
-              <div className="table-cell">Nodes</div>
+              <div className="table-cell">Share</div>
             </div>
-            {loadedData?.dashData.activeNodesByType.map((rowData) => {
+            {clientData?.clients.execution.map((rowData) => {
               return (
-                <div className="table-row" key={rowData.type}>
-                  <div className={`table-cell client ${rowData.type}`}>
-                    {rowData.type}
+                <div className="table-row" key={rowData.name}>
+                  <div className={`table-cell client ${rowData.name}`}>
+                    {rowData.name}
                   </div>
-                  <div className="table-cell">{rowData.count}</div>
+                  <div className="table-cell">{rowData.count}%</div>
                 </div>
               );
             })}
           </div>
         </div>
-        <div className="table-section" id="country">
-          <h3>Country</h3>
+        <div className="table-section" id="nodeType">
+          <h3>Consensus clients</h3>
+          <div className="table">
+            <div className="table-row">
+              <div className="table-cell">Name</div>
+              <div className="table-cell">Share</div>
+            </div>
+            {clientData.clients.consensus.map((rowData) => {
+              return (
+                <div className="table-row" key={rowData.name}>
+                  <div className={`table-cell client ${rowData.name}`}>
+                    {rowData.name}
+                  </div>
+                  <div className="table-cell">{rowData.count}%</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <div className="table-section" id="nodeType">
+          <h3>Networks</h3>
           <div className="table">
             <div className="table-row">
               <div className="table-cell">Name</div>
               <div className="table-cell">Nodes</div>
             </div>
-            {loadedData?.dashData.activeNodesByCountry.map((rowData) => {
-              const countryCode = rowData.country;
-              const regionNames = new Intl.DisplayNames(["en"], {
-                type: "region",
-              });
-              const countryFullName =
-                regionNames.of(countryCode) ?? countryCode;
+            {clientData?.networks.map((rowData) => {
               return (
-                <div className="table-row" key={countryFullName}>
-                  <div className={`table-cell`}>{countryFullName}</div>
-                  <div className="table-cell">{rowData.count}</div>
+                <div className="table-row" key={rowData.name}>
+                  <div className={`table-cell ${rowData.name}`}>
+                    {rowData.name}
+                  </div>
+                  <div className="table-cell">{rowData.count}%</div>
                 </div>
               );
-            })}
+            }) ?? []}
           </div>
         </div>
       </section>

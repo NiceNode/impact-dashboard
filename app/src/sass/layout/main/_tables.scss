@@ -27,6 +27,7 @@
   }
 
   .table-section {
+    margin-top: 93px;
     margin-bottom: 20px;
   }
 
@@ -48,11 +49,11 @@
   .table-cell {
     width: 50%;
     padding-right: 20px;
+    text-transform: capitalize;
     @include media-breakpoint-up(sm) {
       width: 33%;
     }
     &.client {
-      text-transform: capitalize;
       padding-left: 36px;
       background-size: 24px 24px;
       background-repeat: no-repeat;
