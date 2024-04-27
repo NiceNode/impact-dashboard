@@ -34,6 +34,7 @@ export default function Main() {
   }, []);
 
   const scrollToTop = (event) => {
+    // event.preventDefault(); // Prevent the default anchor link behavior
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -156,7 +157,6 @@ export default function Main() {
 
         <ScrollRestoration />
         <Scripts />
-        <script src="/app/src/js/index.js"></script>
       </body>
     </html>
   );

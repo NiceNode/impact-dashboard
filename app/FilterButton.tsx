@@ -4,7 +4,7 @@ import { useLocation, Link } from "@remix-run/react";
 const filterOptions = [
   { name: "overview", path: "/" },
   { name: "ethereum", path: "/client/ethereum" },
-  // ... other options
+  // TODO: make this dynamic based on response
 ];
 
 export default function FilterButton() {
@@ -52,11 +52,12 @@ export default function FilterButton() {
 
   return (
     <div className="links">
-      <div className="filterButton black buttonDropdown" ref={buttonRef}>
-        <div
-          className="filterContainer"
-          onClick={() => setMenuVisible(!isMenuVisible)}
-        >
+      <div
+        className="filterButton black buttonDropdown"
+        ref={buttonRef}
+        onClick={() => setMenuVisible(!isMenuVisible)}
+      >
+        <div className="filterContainer">
           {selected}
           <div className="down"></div>
         </div>
