@@ -4,6 +4,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  Link,
 } from "@remix-run/react";
 import { useState, useEffect } from "react";
 
@@ -33,7 +34,6 @@ export default function Main() {
   }, []);
 
   const scrollToTop = (event) => {
-    event.preventDefault(); // Prevent the default anchor link behavior
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -52,7 +52,7 @@ export default function Main() {
         <div id="topOfPage"></div>
         <header className={isMinimized ? "minimized" : ""}>
           <div className="logo">
-            <a href="/#topOfPage" onClick={scrollToTop}></a>
+            <Link to="/#topOfPage" onClick={scrollToTop}></Link>
           </div>
           <nav>
             <FilterButton />

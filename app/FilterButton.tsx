@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useLocation } from "@remix-run/react";
+import { useLocation, Link } from "@remix-run/react";
 
 const filterOptions = [
   { name: "overview", path: "/" },
@@ -63,8 +63,8 @@ export default function FilterButton() {
         {isMenuVisible && (
           <div className="filterMenu">
             {filterOptions.map((option) => (
-              <a
-                href={option.path}
+              <Link
+                to={option.path}
                 key={option.name}
                 className={`filterText ${selected === option.name ? "selected" : ""}`}
                 onClick={(e) => {
@@ -79,7 +79,7 @@ export default function FilterButton() {
                 {selected === option.name && (
                   <span className="checkmark"></span>
                 )}
-              </a>
+              </Link>
             ))}
           </div>
         )}
