@@ -5,6 +5,7 @@ import {
   useEffect,
   ReactNode,
 } from "react";
+import { useCookies } from "react-cookie"; // Import useCookies
 
 export type ThemeContextType = {
   theme: "dark" | "light";
@@ -14,43 +15,37 @@ export type ThemeContextType = {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState(() => {
-    // Check localStorage first
-    if (typeof window !== "undefined") {
-      const savedTheme = localStorage.getItem("theme");
-      if (savedTheme) {
-        return savedTheme;
-      }
-      // Then system preference
-      if (
-        window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches
-      ) {
-        return "dark";
-      }
-      return "light";
-    }
-  });
+export const ThemeProvider = ({
+  children,
+  initialTheme,
+}: {
+  children: ReactNode;
+  initialTheme: "dark" | "light";
+}) => {
+  const [cookies, setCookie] = useCookies(["theme"]);
+  // Set the initial theme from cookies or the one provided by the server-side logic
+  const [theme, setTheme] = useState(
+    () => cookies.theme || initialTheme || "light",
+  );
 
   useEffect(() => {
-    // Listen to system theme changes
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const handleChange = () => {
-      setTheme(mediaQuery.matches ? "dark" : "light");
-    };
-    mediaQuery.addEventListener("change", handleChange);
-
-    if (typeof window !== "undefined") {
-      // Save theme to localStorage
-      localStorage.setItem("theme", theme ?? "");
+    // Check if the theme cookie is not set and set based on system preference
+    if (!cookies.theme) {
+      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+        .matches
+        ? "dark"
+        : "light";
+      setTheme(systemTheme);
+      setCookie("theme", systemTheme, { path: "/" });
     }
+  }, []); // Empty dependency array to ensure this runs only once after mount
 
-    // Cleanup
-    return () => {
-      mediaQuery.removeEventListener("change", handleChange);
-    };
-  }, [theme]);
+  useEffect(() => {
+    // Update cookie whenever theme changes
+    if (theme !== cookies.theme) {
+      setCookie("theme", theme, { path: "/" });
+    }
+  }, [theme, cookies.theme, setCookie]);
 
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));

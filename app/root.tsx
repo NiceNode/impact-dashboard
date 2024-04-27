@@ -1,13 +1,41 @@
-import { useRouteError } from "@remix-run/react";
+import { useRouteError, useLoaderData } from "@remix-run/react";
 
 import { ThemeProvider } from "./contexts/ThemeContext";
-
 import "./src/sass/index.scss";
 import Main from "./Main";
 
+import { json } from "@remix-run/node";
+
+export function loader({ request }) {
+  // Function to get cookies from the request headers
+  function getCookies(request) {
+    const cookieHeader = request.headers.get("Cookie");
+    if (!cookieHeader) return {}; // Return empty object if no cookie header
+
+    return Object.fromEntries(
+      cookieHeader
+        .split(";")
+        .map((cookie) => {
+          const parts = cookie.split("=");
+          if (parts.length < 2) return [null, null]; // Handle malformed cookie parts
+          const key = parts[0].trim();
+          const value = parts.slice(1).join("=").trim(); // Properly handle cookies with '=' in the value
+          return [key, value];
+        })
+        .filter((parts) => parts[0]), // Filter out null keys resulting from malformed cookies
+    );
+  }
+
+  const cookies = getCookies(request);
+  const theme = cookies.theme || "light"; // Default to 'light' if no theme cookie is set
+
+  return json({ theme });
+}
+
 export default function App() {
+  const { theme } = useLoaderData();
   return (
-    <ThemeProvider>
+    <ThemeProvider initialTheme={theme}>
       <Main />
     </ThemeProvider>
   );
