@@ -21,7 +21,7 @@ type ConsensusClientType =
   | "lodestar"
   | "nimbus"
   | "teku";
-type NetworkType = "mainnet" | "sepolia" | "goerli" | "rinkeby";
+type NetworkType = "mainnet" | "sepolia" | "holesky" ;
 
 interface EthereumData {
   count: number;
@@ -164,26 +164,26 @@ export const getDashData = async () => {
   }
   let activeNodesByType: any[] = []; // Define the correct type based on your application's needs
   if (mostRecentDay?.data?.specId) {
-    // fake until we get real data
+    // manually process ethereum data
+    // todo: generalize each /node/<node-type> endpoint to list all clients
     mostRecentDay.data.specId.ethereum = {
-      count: mostRecentDay.data.specId.ethereum,
+      count: mostRecentDay.data.specId.ethereum.count,
       networks: {
-        mainnet: 29,
-        sepolia: 2,
-        goerli: 3,
-        rinkeby: 1,
+        mainnet: mostRecentDay.data.specId.ethereum.networks?.Mainnet ?? 0,
+        sepolia: mostRecentDay.data.specId.ethereum.networks?.Seploia ?? 0,
+        holesky: mostRecentDay.data.specId.ethereum.networks?.Holesky ?? 0,
       },
       clients: {
-        geth: 20,
-        nethermind: 5,
-        besu: 10,
-        reth: 5,
-        erigon: 2,
-        prysm: 40,
-        lighthouse: 10,
-        lodestar: 4,
-        nimbus: 3,
-        teku: 2,
+        geth: mostRecentDay.data.specId.ethereum.services?.geth?.count ?? 0,
+        nethermind: mostRecentDay.data.specId.ethereum.services?.nethermind?.count ?? 0,
+        besu: mostRecentDay.data.specId.ethereum.services?.besu?.count ?? 0,
+        reth: mostRecentDay.data.specId.ethereum.services?.reth?.count ?? 0,
+        erigon: mostRecentDay.data.specId.ethereum.services?.erigon?.count ?? 0,
+        prysm: mostRecentDay.data.specId.ethereum.services?.['prysm-beacon']?.count ?? 0,
+        lighthouse: mostRecentDay.data.specId.ethereum.services?.['lighthouse-beacon']?.count ?? 0,
+        lodestar: mostRecentDay.data.specId.ethereum.services?.['lodestar-beacon']?.count ?? 0,
+        nimbus: mostRecentDay.data.specId.ethereum.services?.['nimbus-beacon']?.count ?? 0,
+        teku: mostRecentDay.data.specId.ethereum.services?.['teku-beacon']?.count ?? 0,
       },
     };
 
@@ -194,7 +194,7 @@ export const getDashData = async () => {
         );
       } else {
         activeNodesByType.push({
-          count: mostRecentDay.data.specId[specId],
+          count: mostRecentDay.data.specId[specId].count,
           type: specId,
         });
       }
