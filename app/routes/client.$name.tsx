@@ -73,8 +73,8 @@ export default function Client() {
         clientType={params.name}
       />
       <Chart data={loadedData.chartData} type={params.name || ""} />
-      <section id="warning">
-        *Currently using mock data for chart until backend is implemented
+      <section id="info">
+        *Updated daily around 12 AM UTC
       </section>
       <Tables>
         <Table
