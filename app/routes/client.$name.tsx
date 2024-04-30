@@ -72,11 +72,10 @@ export default function Client() {
         countryCount={loadedData?.dashData.activeNodesByCountry.length}
         clientType={params.name}
       />
-      <section id="warning">
-        *Currently using mock data for this page until backend is implemented to
-        show client-specific information
-      </section>
       <Chart data={loadedData.chartData} type={params.name || ""} />
+      <section id="warning">
+        *Currently using mock data for chart until backend is implemented
+      </section>
       <Tables>
         <Table
           title="Execution clients"
