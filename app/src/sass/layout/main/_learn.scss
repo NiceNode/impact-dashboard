@@ -1,0 +1,96 @@
+#learn {
+  @include media-breakpoint-up(sm){
+    margin-top: 96px;
+  }
+  @include media-breakpoint-up(md){
+    margin-top: 120px;
+  }
+
+  .learn-container {
+    display: flex;
+    // align-items: center;
+    height: 560px;
+    position: relative;
+    justify-content: space-between;
+    border-radius: 64px;
+    box-sizing: border-box;
+    flex-direction: column;
+    background: linear-gradient(to top, rgba(130, 103, 239, 0.16), rgba(130, 103, 239, 0.64));
+    @include media-breakpoint-up(sm){
+      background: linear-gradient(to top, rgba(130, 103, 239, 0.16), rgba(130, 103, 239, 0.64));
+    }
+
+    @include media-breakpoint-up(mdlg){
+      flex-direction: row;
+      background: var(--learnBanner) no-repeat right bottom, linear-gradient(to top, rgba(130, 103, 239, 0.16), rgba(130, 103, 239, 0.64));
+      background-size: 672px 396px;
+      height: 396px;
+    }
+
+    .image-container {
+      flex: 1;
+      overflow: hidden;
+      border-bottom-left-radius: 64px;
+      border-bottom-right-radius: 64px;
+      position: relative;
+      width: 100%;
+    
+      .image {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        background: var(--learnBanner) no-repeat right bottom;
+        background-size: 358px 225px;
+
+        @include media-breakpoint-up(sm){
+          background: var(--learnBannerTablet) no-repeat right bottom;
+          background-size: 786px 264px;
+        }
+
+        @include media-breakpoint-up(mdlg){
+          background: none;
+        }
+      }
+    }
+
+    .content {
+    color: var(--textColor);
+    max-width: 100%;
+    text-align: center;
+    padding: 40px 40px 0 40px;
+
+    @include media-breakpoint-up(smmd){
+      padding: 48px 48px 0 48px;
+    }
+    
+    @include media-breakpoint-up(mdlg){
+      max-width: 50%;
+      text-align: left;
+      padding: 64px 0 0 64px;
+    }
+
+    h3 {
+      font-size: 32px;
+      line-height: 38px;
+      margin-bottom: 32px;
+
+      @include media-breakpoint-up(md){
+        font-size: 40px;
+        line-height: 48px;
+      }
+      @include media-breakpoint-up(mdlg){
+        font-size: 48px;
+        line-height: 58px;
+      }
+    }
+
+    h4 {
+      font-size: 20px;
+      margin-bottom: 48px;
+    }
+  }
+  }
+}

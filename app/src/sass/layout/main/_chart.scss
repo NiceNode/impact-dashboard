@@ -1,0 +1,54 @@
+#chart {
+  height: 335px;
+}
+
+.custom-tooltip {
+  // Target the span added by Highcharts
+  span {
+    // Directly target the divs instead of relying on structural pseudo-classes
+    > div {
+      // The outermost div wrapping your custom content
+      font-size: 14px;
+      padding: 6px;
+
+      > div:first-child {
+        // "Node Type" title
+        margin-bottom: 12px;
+        font-weight: bold;
+      }
+
+      > div:nth-child(2) {
+        // The div wrapping the indicator bar and text content
+        position: relative;
+
+        > div:first-child {
+          // Indicator bar
+          height: 36px;
+          width: 3px;
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+
+        > div:nth-child(2) {
+          // The text content wrapper
+          padding-left: 16px; // Adjust the padding to match the design
+
+          > div:first-child {
+            // Date
+            margin-bottom: 4px; // Spacing between date and active count
+            color: var(--iconColor);
+          }
+
+          > div:nth-child(2) {
+            // Active count
+            span {
+              // The actual active count
+              font-weight: bold;
+            }
+          }
+        }
+      }
+    }
+  }
+}

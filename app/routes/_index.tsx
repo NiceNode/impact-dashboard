@@ -1,32 +1,29 @@
 import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { TableBody, TableCell, TableColumnHeaderCell, TableHeader, TableRoot, TableRow, TableRowHeaderCell } from "@radix-ui/themes";
-import ChartNN from "../ChartNN";
-import InfoIconPop from "../InfoIconPop";
-import { getDashData } from "../.server/getDashData"
-import { logDeepObj } from "../.server/util";
+import { useLoaderData, Link } from "@remix-run/react";
+import Chart from "../Chart";
+import { getDashData } from "../.server/getDashData";
+import Headline from "../Headline";
+import { Tables, Table } from "../Tables";
 
 export async function loader() {
   try {
-    const dashData = await getDashData()
-    console.log("dashData: ", logDeepObj(dashData))
-    const chartData: {time: number, active: number}[] = dashData.monthlyActiveNodesIndexByDays.map((dayData) => {
-        const timestamp = new Date(dayData.day).getTime()
-          return { 
-            time: timestamp,
-            active: dayData?.data?.count ?? 0
-          }
-      })
+    const dashData = await getDashData();
+    const chartData: { time: number; active: number }[] =
+      dashData.monthlyActiveNodesIndexByDays.map((dayData) => {
+        const timestamp = new Date(dayData.day).getTime();
+        return {
+          time: timestamp,
+          active: dayData?.data?.count ?? 0,
+        };
+      });
     return json({
       dashData,
-      chartData
+      chartData,
     });
-    // activeNodesDailyHistory = JSON.parse(activeNodesDailyHistory);
   } catch (err) {
     console.error(err);
   }
-
 }
 
 export const meta: MetaFunction = () => {
@@ -38,76 +35,57 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   const loadedData = useLoaderData<typeof loader>();
-
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif" }}>
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <div style={{ fontSize: 48, marginRight: 5 }}>Active Nodes</div>{" "}
-            {/* <Button> */}
-            <InfoIconPop text="Running anytime in last 30 days" />
-          </div>
-          <div style={{ fontSize: 130 }}>{loadedData.dashData.numActiveNodes}</div>
-        </div>
-        <div style={{ width: 700, height: 400 }}>
-          <ChartNN data={loadedData.chartData}/>
-        </div>
-      </div>
-      <div>
-        <TableRoot>
-          <TableHeader>
-            <TableRow>
-              <TableColumnHeaderCell>Node Type</TableColumnHeaderCell>
-              <TableColumnHeaderCell>Count</TableColumnHeaderCell>
-            </TableRow>
-          </TableHeader>
-
-          <TableBody>
-            {loadedData?.dashData.activeNodesByType.map((rowData) => {
-              return (
-                <TableRow key={rowData.type}>
-                  <TableRowHeaderCell>{rowData.type}</TableRowHeaderCell>
-                  <TableCell>{rowData.count}</TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </TableRoot>
-      </div>
-      <br />
-      <br />
-      <div>
-        <TableRoot>
-          <TableHeader>
-            <TableRow>
-              <TableColumnHeaderCell>Country</TableColumnHeaderCell>
-              <TableColumnHeaderCell>Count</TableColumnHeaderCell>
-            </TableRow>
-          </TableHeader>
-
-          <TableBody>
-            {loadedData?.dashData.activeNodesByCountry.map((rowData) => {
-              const countryCode = rowData.country
-              const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
-              const countryFullName = regionNames.of(countryCode) ?? countryCode;
-              console.log("countryFullName: ", countryFullName)
-              return (
-                <TableRow key={countryFullName}>
-                  <TableRowHeaderCell>{countryFullName}</TableRowHeaderCell>
-                  <TableCell>{rowData.count}</TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </TableRoot>
-      </div>
-    </div>
+    <>
+      <Headline
+        nodeCount={loadedData.dashData.numActiveNodes}
+        countryCount={loadedData?.dashData.activeNodesByCountry.length}
+      />
+      <Chart data={loadedData.chartData} type="overview" />
+      <Tables>
+        <Table
+          title="Node type"
+          data={loadedData?.dashData.activeNodesByType}
+          dataKey="nodeType"
+          renderRow={(rowData) => (
+            <div className="table-row" key={rowData.type}>
+              <div
+                style={{
+                  backgroundImage: `url("../images/${rowData.type}.png")`,
+                }}
+                className={`table-cell client`}
+              >
+                {rowData.type === "ethereum" ? (
+                  <Link className="link" to={`/client/${rowData.type}`}>
+                    {rowData.type}
+                  </Link>
+                ) : (
+                  rowData.type
+                )}
+              </div>
+              <div className="table-cell">{rowData.count}</div>
+            </div>
+          )}
+        />
+        <Table
+          title="Country"
+          data={loadedData?.dashData.activeNodesByCountry}
+          dataKey="country"
+          renderRow={(rowData) => {
+            const countryCode = rowData.country;
+            const regionNames = new Intl.DisplayNames(["en"], {
+              type: "region",
+            });
+            const countryFullName = regionNames.of(countryCode) ?? countryCode;
+            return (
+              <div className="table-row" key={countryFullName}>
+                <div className={`table-cell`}>{countryFullName}</div>
+                <div className="table-cell">{rowData.count}</div>
+              </div>
+            );
+          }}
+        />
+      </Tables>
+    </>
   );
 }
