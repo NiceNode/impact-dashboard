@@ -1,6 +1,6 @@
 // app/routes/client/$name.jsx
 import { useParams, useLoaderData } from "@remix-run/react";
-import type { MetaFunction } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import Chart from "../Chart";
 import { getDashData } from "../.server/getDashData";
@@ -11,16 +11,22 @@ function findNodeByType(type: string, nodes: any): Node | undefined {
   return nodes.find((node) => node.type === type);
 }
 
-export async function loader() {
+export async function loader({
+  params,
+}: LoaderFunctionArgs) {
   try {
     const dashData = await getDashData();
+    const nodeName = params.name;
+    if(!nodeName) {
+      throw new Error("Node specId/name url param is required")
+    }
     // console.log("dashData: ", logDeepObj(dashData))
     const chartData: { time: number; active: number }[] =
       dashData.monthlyActiveNodesIndexByDays.map((dayData) => {
         const timestamp = new Date(dayData.day).getTime();
         return {
           time: timestamp,
-          active: dayData?.data?.count ?? 0,
+          active: dayData?.data?.specId?.[nodeName].count ?? 0,
         };
       });
     return json({
