@@ -45,6 +45,8 @@ export default function Main() {
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
+        <meta name="og:image" content="/images/NiceNode.png" />
+        <meta name="twitter:image" content="/images/NiceNode.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />

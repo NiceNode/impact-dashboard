@@ -11,14 +11,12 @@ function findNodeByType(type: string, nodes: any): Node | undefined {
   return nodes.find((node) => node.type === type);
 }
 
-export async function loader({
-  params,
-}: LoaderFunctionArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   try {
     const dashData = await getDashData();
     const nodeName = params.name;
-    if(!nodeName) {
-      throw new Error("Node specId/name url param is required")
+    if (!nodeName) {
+      throw new Error("Node specId/name url param is required");
     }
     // console.log("dashData: ", logDeepObj(dashData))
     const chartData: { time: number; active: number }[] =
@@ -79,9 +77,7 @@ export default function Client() {
         clientType={params.name}
       />
       <Chart data={loadedData.chartData} type={params.name || ""} />
-      <section id="info">
-        *Updated daily around 12 AM UTC
-      </section>
+      <section id="info">*Updated daily around 12 AM UTC</section>
       <Tables>
         <Table
           title="Execution clients"
