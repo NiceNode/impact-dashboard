@@ -2,6 +2,32 @@
   height: 335px;
 }
 
+// Keyframes for rotation animation
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// Loading icon style
+.loadingIcon {
+  -webkit-mask-image: url("../images/spinner.svg");
+  mask-image: url("../images/spinner.svg");
+  background-color: var(--textColor);
+  animation-name: rotate;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  height: 32px;
+  width: 32px;
+  position: absolute;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+}
+
 .custom-tooltip {
   // Target the span added by Highcharts
   span {

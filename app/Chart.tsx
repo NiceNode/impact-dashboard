@@ -216,14 +216,13 @@ const Chart = (props: {
   };
 
   return (
-    // TODO: Add a loading spinner
-    <ClientOnly fallback={<p>Loading...</p>}>
-      {() => (
-        <section id="chart">
+    <section id="chart">
+      <ClientOnly fallback={<div className="loadingIcon"></div>}>
+        {() => (
           <HighchartsReact highcharts={Highcharts} options={chartOptions} />
-        </section>
-      )}
-    </ClientOnly>
+        )}
+      </ClientOnly>
+    </section>
   );
 };
 
