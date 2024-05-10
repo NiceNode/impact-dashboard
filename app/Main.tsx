@@ -47,6 +47,7 @@ export default function Main() {
         <meta charSet="utf-8" />
         <meta name="og:image" content="/images/NiceNode.png" />
         <meta name="twitter:image" content="/images/NiceNode.png" />
+        <meta content="summary_large_image" name="twitter:card" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
