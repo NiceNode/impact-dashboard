@@ -28,8 +28,8 @@ export async function loader() {
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "NiceNode Impact Dashboard" },
-    { name: "description", content: "View our impact" },
+    { title: "NiceNode Impact" },
+    { name: "description", content: "Monitor NiceNode activity with the Impact Dashboard" },
   ];
 };
 

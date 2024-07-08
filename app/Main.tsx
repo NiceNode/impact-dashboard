@@ -49,6 +49,11 @@ export default function Main() {
         <meta name="twitter:image" content="/images/NiceNode.png" />
         <meta content="summary_large_image" name="twitter:card" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta content="NiceNode Impact" property="og:title" />
+        <meta content="NiceNode Impact" property="twitter:title" />
+        <meta content="Monitor NiceNode activity with the Impact Dashboard" property="og:description" />
+        <meta content="Monitor NiceNode activity with the Impact Dashboard" property="twitter:description" />
+        <meta property="og:type" content="website" />
         <Meta />
         <Links />
       </head>
