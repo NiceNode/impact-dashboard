@@ -58,6 +58,7 @@ export default function Main() {
         <Links />
       </head>
       <body className={theme}>
+       <p style={{textAlign: 'center', background: 'red', padding: '10px 0px'}}>This dashboard is under maintenance. The data is currently incorrect.</p>
         <div id="topOfPage"></div>
         <header className={isMinimized ? "minimized" : ""}>
           <div className="logo">
